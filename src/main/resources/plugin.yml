@@ -1,0 +1,60 @@
+name: NextStageMine
+version: 2.1.0
+main: com.vehector.mineriaetapas.MineriaEtapasPlugin
+api-version: "1.21"
+authors: [Vegetta777hector]
+description: Sistema de minería por etapas con hook a BlockRegen y LuckPerms (regiones por rango).
+softdepend:
+  - BlockRegen
+  - LuckPerms
+
+libraries:
+  - org.xerial:sqlite-jdbc:3.46.1.3
+
+commands:
+  etapas:
+    description: Comando principal del plugin de minería por etapas.
+    aliases: [etapa, NextStageMine, nem, me]
+    usage: /etapas help
+
+permissions:
+  mineriaetapas.use:
+    description: Permite ver el progreso propio y usar comandos básicos.
+    default: true
+  mineriaetapas.admin:
+    description: Permite acceder a todos los comandos de administrador.
+    default: op
+    children:
+      mineriaetapas.use: true
+      mineriaetapas.reload: true
+      mineriaetapas.setstage: true
+      mineriaetapas.addblocks: true
+      mineriaetapas.reset: true
+      mineriaetapas.info: true
+      mineriaetapas.bypass: true
+      mineriaetapas.regions.bypass: true
+      mineriaetapas.staff: true
+  mineriaetapas.staff:
+    description: Marca al jugador como staff; salta restricciones de etapas y regiones.
+    default: op
+  mineriaetapas.reload:
+    description: Permite recargar la configuración.
+    default: op
+  mineriaetapas.setstage:
+    description: Permite cambiar la etapa de un jugador.
+    default: op
+  mineriaetapas.addblocks:
+    description: Permite añadir bloques al progreso de un jugador.
+    default: op
+  mineriaetapas.reset:
+    description: Permite reiniciar el progreso de un jugador.
+    default: op
+  mineriaetapas.info:
+    description: Permite ver el progreso de otros jugadores.
+    default: op
+  mineriaetapas.bypass:
+    description: Permite saltarse las restricciones de etapa.
+    default: op
+  mineriaetapas.regions.bypass:
+    description: Permite entrar a regiones aunque no estés en la lista permitida.
+    default: op

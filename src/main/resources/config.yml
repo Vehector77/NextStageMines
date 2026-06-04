@@ -1,0 +1,224 @@
+# ============================================================
+#  NextStageMine - Configuracion principal
+# ============================================================
+#  Soporte de COLORES (totalmente compatible):
+#    - Codigos legacy: &a, &b, &c, &f, &l, &n, &r ...
+#    - Hex 6 digitos:  &#RRGGBB        ej: &#FF8800
+#    - Hex corto:      &x&R&R&G&G&B&B  (formato Spigot)
+#    - MiniMessage:    <red>texto</red>, <gradient:#ff0000:#00ff00>texto</gradient>,
+#                      <rainbow>texto</rainbow>, <bold><italic>texto</italic></bold>
+# ============================================================
+
+settings:
+  # Worlds donde el plugin aplica. Si esta vacio => todos los worlds.
+  enabled-worlds:
+    - "world"
+    - "mina"
+
+  # Comportamiento del hook a BlockRegen.
+  #   auto        : usa BlockRegen si esta cargado, si no vanilla.
+  #   blockregen  : fuerza usar SOLO el hook a BlockRegen.
+  #   vanilla     : ignora BlockRegen y usa solo BlockBreakEvent.
+  #   both        : escucha ambos eventos con deduplicacion por tick.
+  hook-mode: auto
+
+  admins-bypass-restriction: true
+  ignore-creative: true
+  cache-size: 256
+  autosave-interval: 300
+  restriction-message-cooldown: 1500
+
+# ============================================================
+#  Modo de etapas
+# ============================================================
+#  general-enabled: true   => se usa la lista global "stages" para TODOS
+#                            los jugadores (la seccion "rank-stages" se IGNORA).
+#  general-enabled: false  => se usa "rank-stages" por cada grupo de LuckPerms.
+#                            Si el grupo del jugador no esta en "rank-stages",
+#                            se usa la entrada "default" como fallback.
+# ============================================================
+stages-mode:
+  general-enabled: true
+
+# ============================================================
+#  Etapas globales (cuando general-enabled = true)
+# ============================================================
+stages:
+  - id: stone
+    display: "&7Piedra"
+    required: 0
+    blocks:
+      - STONE
+      - COBBLESTONE
+      - DEEPSLATE
+      - COBBLED_DEEPSLATE
+      - TUFF
+
+  - id: coal
+    display: "&8Carbon"
+    required: 50
+    blocks:
+      - COAL_ORE
+      - DEEPSLATE_COAL_ORE
+
+  - id: iron
+    display: "&fHierro"
+    required: 100
+    blocks:
+      - IRON_ORE
+      - DEEPSLATE_IRON_ORE
+
+  - id: copper
+    display: "&6Cobre"
+    required: 100
+    blocks:
+      - COPPER_ORE
+      - DEEPSLATE_COPPER_ORE
+
+  - id: redstone
+    display: "&cRedstone"
+    required: 150
+    blocks:
+      - REDSTONE_ORE
+      - DEEPSLATE_REDSTONE_ORE
+
+  - id: gold
+    display: "&eOro"
+    required: 150
+    blocks:
+      - GOLD_ORE
+      - DEEPSLATE_GOLD_ORE
+      - NETHER_GOLD_ORE
+
+  - id: lapis
+    display: "&9Lapislazuli"
+    required: 100
+    blocks:
+      - LAPIS_ORE
+      - DEEPSLATE_LAPIS_ORE
+
+  - id: emerald
+    display: "&aEsmeralda"
+    required: 200
+    blocks:
+      - EMERALD_ORE
+      - DEEPSLATE_EMERALD_ORE
+
+  - id: diamond
+    display: "&bDiamante"
+    required: 250
+    blocks:
+      - DIAMOND_ORE
+      - DEEPSLATE_DIAMOND_ORE
+
+  - id: netherite
+    display: "&4Netherita"
+    required: 100
+    blocks:
+      - ANCIENT_DEBRIS
+
+# ============================================================
+#  Etapas por rango (LuckPerms)
+# ============================================================
+#  Solo se usan si stages-mode.general-enabled = false.
+#  La clave de cada bloque es el NOMBRE EXACTO del grupo de LuckPerms.
+#  Si el rango del jugador no aparece aqui se usa "default".
+#  El formato de cada etapa es identico a la lista global.
+# ============================================================
+rank-stages:
+  default:
+    - id: stone
+      display: "&7Piedra"
+      required: 0
+      blocks: [STONE, COBBLESTONE, DEEPSLATE, COBBLED_DEEPSLATE, TUFF]
+    - id: coal
+      display: "&8Carbon"
+      required: 50
+      blocks: [COAL_ORE, DEEPSLATE_COAL_ORE]
+    - id: iron
+      display: "&fHierro"
+      required: 100
+      blocks: [IRON_ORE, DEEPSLATE_IRON_ORE]
+  vip:
+    - id: stone
+      display: "&7Piedra"
+      required: 0
+      blocks: [STONE, COBBLESTONE, DEEPSLATE, COBBLED_DEEPSLATE, TUFF]
+    - id: iron
+      display: "&fHierro"
+      required: 30
+      blocks: [IRON_ORE, DEEPSLATE_IRON_ORE]
+    - id: gold
+      display: "&eOro"
+      required: 60
+      blocks: [GOLD_ORE, DEEPSLATE_GOLD_ORE, NETHER_GOLD_ORE]
+    - id: diamond
+      display: "&bDiamante"
+      required: 120
+      blocks: [DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE]
+
+# ============================================================
+#  Regiones (hook con BlockRegen + LuckPerms)
+# ============================================================
+#  Cuando un jugador intenta entrar en una region listada aqui,
+#  se comprueba si su grupo de LuckPerms esta en "allowed-groups".
+#  Si NO esta, se cancela el movimiento y se envia "deny-message".
+#
+#  - auto-add: si esta a true, al detectar una region nueva creada
+#    en BlockRegen se anade automaticamente a esta config con la
+#    plantilla de "default-allowed-groups" y "default-deny-message".
+#  - check-interval-seconds: cada cuanto se sincroniza con BlockRegen.
+#  - move-check-mode: BLOCK (solo cuando cambia de bloque) o ALWAYS.
+# ============================================================
+regions:
+  enabled: true
+  auto-add: true
+  check-interval-seconds: 10
+  move-check-mode: BLOCK
+  default-allowed-groups:
+    - default
+  default-deny-message: "%prefix%&cNo tienes el rango necesario para entrar a &e%region%&c."
+  default-deny-message-cooldown: 1500
+  list:
+    # Ejemplo. Cuando BlockRegen tenga una region llamada "mina_vip",
+    # se anadira sola si auto-add esta en true.
+    mina_vip:
+      allowed-groups:
+        - vip
+        - mvp
+        - admin
+      deny-message: "%prefix%<gradient:#ff5555:#ffaa00>Esta mina es solo para </gradient><bold><yellow>VIP</yellow></bold><gray>.</gray>"
+    mina_diamante:
+      allowed-groups:
+        - mvp
+        - admin
+      deny-message: "%prefix%&#ff3333Acceso denegado &7- &#ffaa00Necesitas rango &lMVP&r &7para entrar a &b%region%&7."
+
+# ============================================================
+#  Mensajes (admiten codigos &, hex &#RRGGBB y MiniMessage)
+# ============================================================
+#  Placeholders disponibles:
+#    %prefix%   %player%  %stage%  %next_stage%
+#    %current%  %required%  %remaining%  %percent%
+#    %region%   %group%
+# ============================================================
+messages:
+  prefix: "&8[&bNextStageMine&8] &7"
+  no-permission: "%prefix%&cNo tienes permiso para esto."
+  player-only: "%prefix%&cEste comando solo lo puede usar un jugador."
+  unknown-player: "%prefix%&cJugador desconocido: &f%player%"
+  unknown-stage: "%prefix%&cEtapa desconocida: &f%stage%"
+  reloaded: "%prefix%&aConfiguracion recargada correctamente."
+  blocked-mining: "%prefix%&cAun no puedes picar este bloque. Necesitas desbloquear la etapa &e%stage%&c."
+  stage-unlocked: "%prefix%&a!Has desbloqueado la etapa &f%stage%&a!"
+  max-stage: "%prefix%&6!Has completado todas las etapas! Eres un maestro minero."
+  progress-header: "&8&m----------&r &bProgreso de %player% &8&m----------"
+  progress-current: "&7Etapa actual: %stage%"
+  progress-next: "&7Proxima etapa: %next_stage% &8(&f%current%&7/&f%required%&8 &7| &f%percent%%&8)"
+  progress-completed: "&aHas completado todas las etapas."
+  stage-set: "%prefix%&aEtapa de &f%player%&a establecida a &f%stage%&a."
+  blocks-added: "%prefix%&aAnadidos &f%current%&a bloques a la etapa &f%stage%&a de &f%player%&a."
+  player-reset: "%prefix%&aProgreso de &f%player%&a reiniciado."
+  region-added-auto: "%prefix%&7Region detectada y anadida a la config: &b%region%&7."
+  bypass-on: "%prefix%&aBypass de etapas &lACTIVADO&r&a para %player%&a. Vuelves a saltarte las restricciones."
+  bypass-off: "%prefix%&eBypass de etapas &lDESACTIVADO&r&e para %player%&e. Ahora estas sujeto a las restricciones de etapa como un jugador normal."

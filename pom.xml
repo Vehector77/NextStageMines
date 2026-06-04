@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.vehector</groupId>
+    <artifactId>NextStageMine</artifactId>
+    <version>2.1.0</version>
+    <packaging>jar</packaging>
+
+    <name>NextStageMine</name>
+    <description>Plugin de miner por etapas para Paper 1.21 con hook a BlockRegen y LuckPerms el cual te permitira tener control absoluto de las etapas que deben pasar los usuarios</description>
+    <url>https://github.com/Vehector77/NextStageMines</url>
+    <inceptionYear>2025</inceptionYear>
+
+    <organization>
+        <name>Vector77</name>
+        <url>https://github.com/vehector77</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>Vector77</id>
+            <name>Vector77</name>
+            <organization>Vector77</organization>
+            <roles>
+                <role>author</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/Vehector77/NextStageMine</url>
+        <connection>scm:git:https://github.com/Vehector77/NextStageMine.git</connection>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
+        <!-- Reproducible builds: fixed timestamp eliminates "Built-By: root" + random timestamps -->
+        <project.build.outputTimestamp>2025-01-15T00:00:00Z</project.build.outputTimestamp>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>luckperms</id>
+            <url>https://repo.lucko.me/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.luckperms</groupId>
+            <artifactId>api</artifactId>
+            <version>5.4</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>nl.aurorion.blockregen</groupId>
+            <artifactId>blockage-plugin</artifactId>
+            <version>3.31.3</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/BlockRegen-3.31.3.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>21</release>
+                </configuration>
+            </plugin>
+
+            <!-- Build a clean MANIFEST.MF with proper metadata (reduces SmartScreen/Safe Browsing flags) -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>true</addMavenDescriptor>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Specification-Title>NextStageMine</Specification-Title>
+                            <Specification-Version>2.1.0</Specification-Version>
+                            <Specification-Vendor>Vector</Specification-Vendor>
+                            <Implementation-Title>NextStageMine</Implementation-Title>
+                            <Implementation-Version>2.1.0</Implementation-Version>
+                            <Implementation-Vendor>Vector</Implementation-Vendor>
+                            <Implementation-Vendor-Id>com.vehector</Implementation-Vendor-Id>
+                            <Implementation-URL>https://github.com/Vehector77/NextStageMine</Implementation-URL>
+                            <Built-By>Vector</Built-By>
+                            <Build-Jdk-Spec>21</Build-Jdk-Spec>
+                            <Sealed>true</Sealed>
+                            <Bundle-Name>NextStageMine</Bundle-Name>
+                            <Bundle-Vendor>Vector</Bundle-Vendor>
+                            <Bundle-License>https://opensource.org/licenses/MIT</Bundle-License>
+                            <Bundle-Description>Plugin de miner por etapas para Paper 1.21</Bundle-Description>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
